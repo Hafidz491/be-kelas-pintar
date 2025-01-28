@@ -54,8 +54,6 @@ export const signUpAction = async (req, res) => {
     await user.save();
     await transaction.save();
 
-    console.log(resMidtrans);
-
     return res.json({
       message: "Sign Up Success",
       data: {
