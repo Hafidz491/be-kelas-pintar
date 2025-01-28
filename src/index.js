@@ -6,6 +6,7 @@ const app = express();
 
 import globalRoutes from "./routes/globalRoutes.js";
 import authRoutes from "./routes/authRoute.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 import db from "./config/db.js";
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 
 app.use("/api", globalRoutes);
 app.use("/api", authRoutes);
+app.use("/api", paymentRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
