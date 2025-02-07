@@ -8,6 +8,7 @@ import globalRoutes from "./routes/globalRoutes.js";
 import authRoutes from "./routes/authRoute.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import db from "./config/db.js";
+import courseRoutes from "./routes/courseRoutes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 app.use("/api", globalRoutes);
 app.use("/api", authRoutes);
 app.use("/api", paymentRoutes);
+app.use("/api", courseRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
