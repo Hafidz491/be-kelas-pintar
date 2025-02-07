@@ -102,7 +102,7 @@ export const signInAction = async (req, res) => {
       {
         id: existingUser._id.toString(),
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET_KEY,
       { expiresIn: "1 day" }
     );
 
