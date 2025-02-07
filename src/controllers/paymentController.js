@@ -3,13 +3,13 @@ import transactionModel from "../models/transactionModel.js";
 export const paymentController = async (req, res) => {
   try {
     const body = req.body;
-    const objectId = body.order_id;
-    console.log(objectId);
+    const orderId = body.order_id;
+    console.log(orderId);
 
     switch (body.transaction_status) {
       case "capture":
       case "settlement":
-        await transactionModel.findByIdAndUpdate(objectId, {
+        await transactionModel.findByIdAndUpdate(orderId, {
           status: "success",
         });
         break;
@@ -18,7 +18,7 @@ export const paymentController = async (req, res) => {
       case "expire":
       case "pending":
       case "failure":
-        await transactionModel.findByIdAndUpdate(objectId, {
+        await transactionModel.findByIdAndUpdate(orderId, {
           status: "failed",
         });
         break;
