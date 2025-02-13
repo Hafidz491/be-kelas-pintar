@@ -13,7 +13,7 @@ const courseDetailModel = mongoose.Schema(
     },
     videoId: String,
     text: String,
-    couse: {
+    course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
     },
