@@ -10,9 +10,12 @@ const verifyToken = async (req, res, next) => {
       secretKey
     );
 
-    const user = await userModel.findById(decoded.id, "_id name email role");
+    const user = await userModel.findById(
+      decoded.data.id,
+      "_id name email role"
+    );
 
-    if (!decoded?.id) {
+    if (!decoded?.data.id) {
       return res.status(400).json({ message: "Invalid Token Structure" });
     }
 
