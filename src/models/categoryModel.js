@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const categoryModel = mongoose.Schema(
+export const categoryModel = mongoose.Schema(
   {
     name: {
       type: String,
