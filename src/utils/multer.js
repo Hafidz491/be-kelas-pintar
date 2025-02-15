@@ -2,7 +2,7 @@ import multer from "multer";
 
 export const fileStorageCourse = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb("public/uploads/courses");
+    cb(null, "public/uploads/courses");
   },
   filename: (req, file, cb) => {
     const ext = file.originalname.split(".")[1];
@@ -13,9 +13,9 @@ export const fileStorageCourse = multer.diskStorage({
 
 export const fileFilter = (req, file, cb) => {
   if (
-    file.mimeType === "image/jpg" ||
-    file.mimeType === "image/jpeg" ||
-    file.mimeType === "image/png"
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png"
   ) {
     cb(null, true);
   } else {
