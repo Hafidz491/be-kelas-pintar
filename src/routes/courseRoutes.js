@@ -7,7 +7,7 @@ import { fileStorageCourse, fileFilter } from "../utils/multer.js";
 const courseRoutes = express.Router();
 const upload = multer({
   storage: fileStorageCourse,
-  fileFilter,
+  fileFilter: fileFilter,
 });
 
 courseRoutes.get("/courses", verifyToken, getCourses);
