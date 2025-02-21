@@ -2,6 +2,7 @@ import courseModel from "../models/courseModel.js";
 import { mutateCourseSchema } from "../utils/schema.js";
 import categoryModel from "../models/categoryModel.js";
 import userModel from "../models/userModel.js";
+import fs from "fs";
 
 export const getCourses = async (req, res) => {
   try {
@@ -26,6 +27,8 @@ export const getCourses = async (req, res) => {
 export const postCourse = async (req, res) => {
   try {
     const body = req.body;
+
+    console.log(req.file?.path);
 
     const parse = mutateCourseSchema.safeParse(body);
 
@@ -53,10 +56,10 @@ export const postCourse = async (req, res) => {
 
     const course = new courseModel({
       name: parse.data.name,
-      thumbnail: req.file?.filename,
       category: category._id,
-      tagline: parse.data.tagline,
       description: parse.data.description,
+      tagline: parse.data.tagline,
+      thumbnail: req.file?.filename,
       manager: req.user._id,
     });
 
