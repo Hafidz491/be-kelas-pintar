@@ -5,7 +5,7 @@ export const fileStorageCourse = multer.diskStorage({
     cb(null, "public/uploads/courses");
   },
   filename: (req, file, cb) => {
-    const ext = file.originalname.split(".")[1];
+    const ext = file.originalName.split(".")[1];
     const uniqeId = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     cb(null, `${file.fieldname}-${uniqeId}.${ext}`);
   },
@@ -13,9 +13,9 @@ export const fileStorageCourse = multer.diskStorage({
 
 export const fileFilter = (req, file, cb) => {
   if (
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "image/png"
+    file.mimeType === "image/jpg" ||
+    file.mimeType === "image/jpeg" ||
+    file.mimeType === "image/png"
   ) {
     cb(null, true);
   } else {
