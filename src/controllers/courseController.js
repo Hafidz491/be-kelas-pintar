@@ -14,9 +14,19 @@ export const getCourses = async (req, res) => {
       .populate({ path: "category", select: "name -_id" })
       .populate({ path: "students", select: "name" });
 
+    const imageUrl = process.env.APP_URL + "/uploads/courses/";
+
+    const response = courses.map((item) => {
+      return {
+        ...item.toObject(),
+        thumbnail_url: imageUrl + item.thumbnail,
+        total_students: item.students.length,
+      };
+    });
+
     return res.json({
       message: "Get courses success",
-      data: courses,
+      data: response,
     });
   } catch (error) {
     console.log(error);
@@ -82,6 +92,57 @@ export const postCourse = async (req, res) => {
     );
 
     return res.json({ message: "Create course success" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server Error!" });
+  }
+};
+
+export const updateCourse = async (req, res) => {
+  try {
+    const body = req.body;
+    const courseId = req.params.id;
+
+    console.log(req.file?.path);
+
+    const parse = mutateCourseSchema.safeParse(body);
+
+    if (!parse.success) {
+      const errorMessages = parse.error.issues.map((err) => err.message);
+
+      if (req?.file?.path && fs.existsSync(req?.file?.path)) {
+        fs.unlinkSync(req?.file?.path);
+      }
+
+      return res.status(500).json({
+        message: "Invalid Request",
+        data: null,
+        errors: errorMessages,
+      });
+    }
+
+    const category = await categoryModel.findById(parse.data.categoryId);
+    const oldCourse = await courseModel.findById(courseId);
+
+    if (!category) {
+      return res.status(500).json({
+        message: "Category Id not found",
+      });
+    }
+
+    await courseModel.findByIdAndUpdate(
+      courseId,
+      {
+        name: parse.data.name,
+        category: category._id,
+        description: parse.data.description,
+        tagline: parse.data.tagline,
+        thumbnail: req?.file ? req.file?.filename : oldCourse.thumbnail,
+      },
+      { new: true }
+    );
+
+    return res.json({ message: "Update Course Success" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal Server Error!" });
