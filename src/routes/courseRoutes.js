@@ -3,6 +3,7 @@ import {
   getCourses,
   postCourse,
   updateCourse,
+  deleteCourse,
 } from "../controllers/courseController.js";
 import verifyToken from "../middleware/verifyToken.js";
 import multer from "multer";
@@ -28,5 +29,7 @@ courseRoutes.put(
   upload.single("thumbnail"),
   updateCourse
 );
+
+courseRoutes.delete("/courses/:id", verifyToken, deleteCourse);
 
 export default courseRoutes;
