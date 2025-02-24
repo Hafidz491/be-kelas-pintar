@@ -3,6 +3,7 @@ import { mutateCourseSchema } from "../utils/schema.js";
 import categoryModel from "../models/categoryModel.js";
 import userModel from "../models/userModel.js";
 import fs from "fs";
+import path from "path";
 
 export const getCourses = async (req, res) => {
   try {
@@ -143,6 +144,32 @@ export const updateCourse = async (req, res) => {
     );
 
     return res.json({ message: "Update Course Success" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server Error!" });
+  }
+};
+
+export const deleteCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const course = await courseModel.findById(id);
+
+    const dirname = path.resolve();
+
+    const filePath = path.join(
+      dirname,
+      `public/uploads/courses/${course.thumbnail}`
+    );
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    await courseModel.findByIdAndDelete(id);
+
+    return res.json({ message: "Delete course success" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal Server Error!" });
