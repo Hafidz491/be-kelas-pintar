@@ -42,8 +42,10 @@ const courseModel = mongoose.Schema({
   ],
 });
 
+// middleware post
 courseModel.post("findOneAndDelete", async (doc) => {
   if (doc) {
+    // after delete course must update data who related with course model
     await categoryModel.findByIdAndUpdate(doc.category, {
       $pull: { courses: doc._id },
     });
