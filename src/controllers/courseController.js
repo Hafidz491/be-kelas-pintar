@@ -66,9 +66,14 @@ export const getCourseById = async (req, res) => {
         select: preview === "true" ? "title type videoId text" : "title type",
       });
 
+    const imageUrl = process.env.APP_URL + "/uploads/courses/";
+
     return res.json({
       message: "Get course success",
-      data: course,
+      data: {
+        ...course.toObject(),
+        thumbnail_url: imageUrl + course.thumbnail,
+      },
     });
   } catch (error) {
     console.log(error);
